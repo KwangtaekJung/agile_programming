@@ -1,8 +1,5 @@
 package com.sds.icagile.cafe.payment;
 
-import com.sds.icagile.cafe.api.mileage.Mileage;
-import com.sds.icagile.cafe.api.mileage.MileageApiService;
-import com.sds.icagile.cafe.exception.BizException;
 import com.sds.icagile.cafe.order.model.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,23 +12,23 @@ public class PaymentService {
     private final CardPaymentService cardPaymentService;
     private final MileagePaymentService mileagePaymentService;
 
-    public double getMileagePoint(int payment, double totalCost) {
-        if (payment == 1) {
+    public double getMileagePoint(PaymentType payment, double totalCost) {
+        if (payment == PaymentType.CASH) {
             return cashPaymentService.getMileagePoint(totalCost);
-        } else if (payment == 2) {
+        } else if (payment == PaymentType.CARD) {
             return cardPaymentService.getMileagePoint(totalCost);
-        } else if (payment == 3) {
+        } else if (payment == PaymentType.MILEAGE) {
             return mileagePaymentService.getMileagePoint(totalCost);
         }
         return 0.0;
     }
 
-    public void pay(int customerId, int payment, Order order, double mileagePoint) {
-        if(payment == 1) {
+    public void pay(int customerId, PaymentType payment, Order order, double mileagePoint) {
+        if(payment == PaymentType.CASH) {
             cashPaymentService.pay(customerId, order, mileagePoint);
-        } else if (payment == 2) {
+        } else if (payment == PaymentType.CARD) {
             cardPaymentService.pay(customerId, order, mileagePoint);
-        } else if (payment == 3) {
+        } else if (payment == PaymentType.MILEAGE) {
             mileagePaymentService.pay(customerId, order, mileagePoint);
         }
     }

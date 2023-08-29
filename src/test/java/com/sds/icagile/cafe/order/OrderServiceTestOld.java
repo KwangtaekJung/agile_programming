@@ -258,7 +258,7 @@ public class OrderServiceTestOld {
     class TestableOrderService extends OrderService {
 
         public TestableOrderService(OrderRepository orderRepository, MileageApiService mileageApiService, CustomerService customerService, BeverageRepository beverageRepository, OrderItemRepository orderItemRepository, PaymentService paymentService) {
-            super(orderRepository, mileageApiService, customerService, beverageRepository, orderItemRepository);
+            super(orderRepository, mileageApiService, customerService, beverageRepository, orderItemRepository, paymentService);
         }
 
         @Override

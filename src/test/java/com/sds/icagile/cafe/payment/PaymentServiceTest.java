@@ -14,9 +14,9 @@ import static org.mockito.Mockito.verify;
 public class PaymentServiceTest {
 
     public static final int CUSTOMER_ID = 24264;
-    public static final int PAYMENT_CASH = 1;
-    public static final int PAYMENT_CARD = 2;
-    public static final int PAYMENT_MILEAGE = 3;
+    public static final PaymentType PAYMENT_CASH = PaymentType.CASH;
+    public static final PaymentType PAYMENT_CARD = PaymentType.CARD;
+    public static final PaymentType PAYMENT_MILEAGE = PaymentType.MILEAGE;
 
     private PaymentService subject;
 

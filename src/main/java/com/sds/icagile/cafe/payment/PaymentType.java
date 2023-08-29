@@ -21,6 +21,6 @@ public enum PaymentType {
         return Stream.of(values())
                 .filter(type -> type.getCode() == code)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("invlid PaymentType code"));
+                .orElseThrow(() -> new NotFoundException("invalid PaymentType code"));
     }
 }

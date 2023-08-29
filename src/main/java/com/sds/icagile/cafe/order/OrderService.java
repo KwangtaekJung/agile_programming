@@ -30,21 +30,20 @@ public class OrderService {
     private final CustomerService customerService;
     private final BeverageRepository beverageRepository;
     private final OrderItemRepository orderItemRepository;
-    private IPaymentService paymentService;
+    private final PaymentService paymentService;
 
     public OrderService(OrderRepository orderRepository,
                         MileageApiService mileageApiService,
                         CustomerService customerService,
                         BeverageRepository beverageRepository,
-                        OrderItemRepository orderItemRepository
-//                        PaymentService paymentService
-    ) {
+                        OrderItemRepository orderItemRepository,
+                        PaymentService paymentService) {
         this.orderRepository = orderRepository;
         this.mileageApiService = mileageApiService;
         this.customerService = customerService;
         this.beverageRepository = beverageRepository;
         this.orderItemRepository = orderItemRepository;
-//        this.paymentService = paymentService;
+        this.paymentService = paymentService;
     }
 
     public Order getOrder(int orderId) {
@@ -101,10 +100,10 @@ public class OrderService {
         order.setTotalCost(discountedTotalCost);
 
         //3. mileage point 계산
-        double mileagePoint = paymentService.getMileagePoint(discountedTotalCost);
+        double mileagePoint = paymentService.getMileagePoint(PaymentType.fromCode(payment), discountedTotalCost);
 
         //4. payment 에 따라 비용 지불
-        paymentService.pay(customerId, order, mileagePoint);
+        paymentService.pay(customerId, PaymentType.fromCode(payment), order, mileagePoint);
 
         order.setMileagePoint(mileagePoint);
         orderRepository.save(order);
