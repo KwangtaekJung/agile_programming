@@ -28,4 +28,9 @@ public class MileagePaymentService implements IPaymentService {
             throw new BizException("mileage is not enough");
         }
     }
+
+    @Override
+    public PaymentType getPaymentType() {
+        return PaymentType.MILEAGE;
+    }
 }

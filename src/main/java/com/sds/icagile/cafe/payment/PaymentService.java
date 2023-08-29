@@ -8,29 +8,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PaymentService {
 
-    private final CashPaymentService cashPaymentService;
-    private final CardPaymentService cardPaymentService;
-    private final MileagePaymentService mileagePaymentService;
+    private final PaymentServiceFactory paymentServiceFactory;
 
     public double getMileagePoint(PaymentType payment, double totalCost) {
-        if (payment == PaymentType.CASH) {
-            return cashPaymentService.getMileagePoint(totalCost);
-        } else if (payment == PaymentType.CARD) {
-            return cardPaymentService.getMileagePoint(totalCost);
-        } else if (payment == PaymentType.MILEAGE) {
-            return mileagePaymentService.getMileagePoint(totalCost);
-        }
-        return 0.0;
+        return this.paymentServiceFactory.getService(payment).getMileagePoint(totalCost);
     }
 
     public void pay(int customerId, PaymentType payment, Order order, double mileagePoint) {
-        if(payment == PaymentType.CASH) {
-            cashPaymentService.pay(customerId, order, mileagePoint);
-        } else if (payment == PaymentType.CARD) {
-            cardPaymentService.pay(customerId, order, mileagePoint);
-        } else if (payment == PaymentType.MILEAGE) {
-            mileagePaymentService.pay(customerId, order, mileagePoint);
-        }
+       this.paymentServiceFactory.getService(payment).pay(customerId, order, mileagePoint);
     }
 
 }
